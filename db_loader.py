@@ -1,5 +1,5 @@
 import psycopg2
-
+import weather_scrap
 import os
 from dotenv import load_dotenv
 
@@ -16,9 +16,12 @@ try:
         user = USER,
         password = PASSWORD,
         host = HOST,
-        port = HOST
+        port = PORT
     )
     connection.autocommit = True
+
+    print("[INFO] PostgreSQL connection set up")
+
     with connection.cursor() as cursor:
         pass
 
