@@ -13,7 +13,6 @@ def parser(url):
         soup = BeautifulSoup(response.content, 'html.parser')
         span_element = soup.find('span', {'property': 'dc:date dc:created'})
 
-        # Отримуємо значення атрибуту 'content' (дату)
         timestamp = span_element['content'] if span_element else None
         result['timestamp'] = timestamp[0:9]
         paragraphs = soup.find_all('strong')
@@ -28,5 +27,3 @@ def parser(url):
         print("Не вдалося завантажити сторінку, статус:", response.status_code)
 
     return json.dumps(result, indent=4)
-
-print(parser('https://www.understandingwar.org/backgrounder/russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment'))
