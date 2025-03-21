@@ -1,29 +1,42 @@
-import json
+import urllib.request
+import urllib.error
 
-import requests
-from bs4 import BeautifulSoup
+import re
 
 
-def parser(url):
-    result = {}
+url = "https://www.understandingwar.org/backgrounder/russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment"
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
 
-    response = requests.get(url)
+req = urllib.request.Request(url, headers=headers)
 
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-        span_element = soup.find('span', {'property': 'dc:date dc:created'})
 
-        timestamp = span_element['content'] if span_element else None
-        result['timestamp'] = timestamp[0:9]
-        paragraphs = soup.find_all('strong')
-        counter = 0
-        for p in paragraphs[5:]:
-            adder = p.get_text(strip=True)
-            if len(adder) >= 10:
-                result[counter] = adder
-                counter += 1
+with urllib.request.urlopen(req) as response:
+    try:
+        html_content = response.read().decode('utf-8')
+    except urllib.error.HTTPError as e:
+        print(f"HTTP error {e.code}: {e.reason}")
 
+
+if html_content:
+    date_pattern = re.compile(r'<span[^>]*?property="dc:date dc:created"[^>]*?content="(.*?)"', re.DOTALL)
+    date_match = date_pattern.search(html_content)
+    if date_match:
+        date_content = date_match.group(1)
+        print(f"Date: {date_content}")
     else:
-        print("Не вдалося завантажити сторінку, статус:", response.status_code)
+        print("Date not found.")
 
-    return json.dumps(result, indent=4)
+    text_pattern = re.compile(r'<div class="field-items"><div class="field-item even" property="content:encoded">(.*?)<\/div>', re.DOTALL)
+    text_match = text_pattern.search(html_content)
+    if text_match:
+        content = text_match.group(1)
+        text = re.sub(r'<script.*?</script>', '', content, flags=re.DOTALL)
+        text = re.sub(r'<style.*?</style>', '', text, flags=re.DOTALL)
+        text = re.sub(r'<[^>]+>', '', text)
+        clean_text = text.strip()
+        print(f"Content: {clean_text}")
+    else:
+        print("Content not found.")
+
