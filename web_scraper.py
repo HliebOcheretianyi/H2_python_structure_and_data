@@ -11,11 +11,13 @@ headers = {
 
 req = urllib.request.Request(url, headers=headers)
 
+
 with urllib.request.urlopen(req) as response:
     try:
         html_content = response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         print(f"HTTP error {e.code}: {e.reason}")
+
 
 if html_content:
     date_pattern = re.compile(r'<span[^>]*?property="dc:date dc:created"[^>]*?content="(.*?)"', re.DOTALL)
@@ -37,3 +39,4 @@ if html_content:
         print(f"Content: {clean_text}")
     else:
         print("Content not found.")
+
