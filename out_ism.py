@@ -1,5 +1,6 @@
 import urllib.request
 import urllib.error
+import json
 import datetime
 import re
 import pandas as pd
@@ -13,7 +14,7 @@ def everyday_parsing_isw():
 
     url = (
         f"https://www.understandingwar.org/backgrounder/"
-        f"russian-offensive-campaign-assessment-{month}-{today.day - 1}-{today.year}"
+        f"russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment"
     )
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
@@ -49,11 +50,10 @@ def everyday_parsing_isw():
                 else:
                     print("Content not found.")
 
-    except urllib.error.URLError as e:
+    except (urllib.error.HTTPError, urllib.error.URLError) as e:
         print(f"Error accessing the URL: {e}")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
-
 
     df = pd.DataFrame(result)
 
@@ -65,7 +65,6 @@ def everyday_parsing_isw():
 
     table = pa.Table.from_pandas(combined_df)
     pq.write_table(table, 'ISW.parquet')
-
 
 if __name__ == "__main__":
     everyday_parsing_isw()
