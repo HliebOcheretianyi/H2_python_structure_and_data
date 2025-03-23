@@ -76,4 +76,4 @@ def everyday_parsing_isw():
 if __name__ == "__main__":
     everyday_parsing_isw()
     read_df = pd.read_parquet('ISW.parquet')
-    print(read_df.head(10))
+    print(read_df.tail(10))
