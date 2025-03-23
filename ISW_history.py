@@ -19,15 +19,20 @@ def build_url(date_obj):
     year = date_obj.year
 
     if year == 2022 and date_obj.month == 2 and date_obj.day == 24:
-        return "https://www.understandingwar.org/backgrounder/russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment"
+        return ("https://www.understandingwar.org/backgrounder/"
+                "russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment")
     elif year == 2022 and date_obj.month == 2 and date_obj.day == 25:
-        return f"https://www.understandingwar.org/backgrounder/russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}-{year   }"
+        return (f"https://www.understandingwar.org/backgrounder/"
+                f"russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}-{year   }")
     elif year == 2022 and date_obj.month == 2 and date_obj.day != 28:
-        return f"https://www.understandingwar.org/backgrounder/russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}"
+        return (f"https://www.understandingwar.org/backgrounder/"
+                f"russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}")
     elif year == 2022 and date_obj.month != 2:
-        return f"https://www.understandingwar.org/backgrounder/russian-offensive-campaign-assessment-{month}-{day}"
+        return (f"https://www.understandingwar.org/backgrounder/"
+                f"russian-offensive-campaign-assessment-{month}-{day}")
     else:
-        return f"https://www.understandingwar.org/backgrounder/russian-offensive-campaign-assessment-{month}-{day}-{year}"
+        return (f"https://www.understandingwar.org/backgrounder/"
+                f"russian-offensive-campaign-assessment-{month}-{day}-{year}")
 
 def try_fetch_article(date_obj, headers):
     url = build_url(date_obj)
@@ -62,7 +67,8 @@ def collect_all_isw_reports():
     end_date = datetime.date(2025, 3, 23)
 
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'
+                      '537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 
     data = {
@@ -70,7 +76,7 @@ def collect_all_isw_reports():
         'content': []
     }
 
-    for date_obj in tqdm(generate_date_range(start_date, end_date), desc="🔎 Downloading ISW reports"):
+    for date_obj in tqdm(generate_date_range(start_date, end_date), desc="Downloading ISW reports"):
         content = try_fetch_article(date_obj, headers)
         data['date'].append(date_obj.strftime('%Y-%m-%d'))
         data['content'].append(content)
@@ -81,9 +87,9 @@ def collect_all_isw_reports():
     table = pa.Table.from_pandas(df)
     pq.write_table(table, 'ISW.parquet')
 
-    print(f"✅ Total rows saved: {len(df)}")
+    print(f"Total rows saved: {len(df)}")
 
 if __name__ == "__main__":
     collect_all_isw_reports()
     df = pd.read_parquet('ISW.parquet')
-    print(df[df['content'] != ""].tail(10))  # Показати останні дні з контентом
+    print(df[df['content'] != ""].tail(10))
