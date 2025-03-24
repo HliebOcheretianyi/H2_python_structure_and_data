@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
-API_TOKEN = os.getenv("API_TOKEN", "")
 RSA_KEY = os.getenv("RSA_KEY", "")
 
 
@@ -35,4 +34,3 @@ def generate_forecast(location: str, date):
         return response.json()
     else:
         raise Exception(f"ERROR: {response.text}: {response.status_code}")
-
