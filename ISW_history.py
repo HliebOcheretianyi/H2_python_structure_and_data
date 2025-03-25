@@ -62,9 +62,8 @@ def try_fetch_article(date_obj, headers):
 
     return ""
 
-def collect_all_isw_reports():
+def collect_all_isw_reports(end_date):
     start_date = datetime.date(2022, 2, 24)
-    end_date = datetime.date(2025, 3, 23)
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'
@@ -90,6 +89,7 @@ def collect_all_isw_reports():
     print(f"Total rows saved: {len(df)}")
 
 if __name__ == "__main__":
-    collect_all_isw_reports()
+    end_date = datetime.date(2025, 3, 23)
+    collect_all_isw_reports(end_date)
     df = pd.read_parquet('ISW.parquet')
     print(df[df['content'] != ""].tail(10))
