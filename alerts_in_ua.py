@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 load_dotenv()
-RSA_KEY_ALARM = os.getenv('RSA_KEY_ALARM', '')
+ALERT_KEY = os.getenv("ALERT_KEY", "")
 city_to_uid = {
     'Khmelnytskyi Region': '3',
     'Vinnytsia Region': '4',
@@ -43,7 +43,7 @@ def get_alert_status(city_name):
         return
     url = f"https://api.alerts.in.ua/v1/iot/active_air_raid_alerts/{uid}.json"
     headers = {
-        "Authorization": f"Bearer {RSA_KEY_ALARM}"
+        "Authorization": f"Bearer {ALERT_KEY}"
     }
     response = requests.get(url, headers=headers)
     if response.status_code == requests.codes.ok:
