@@ -8,10 +8,7 @@ from alerts_in_ua import get_alert_status\
 
 load_dotenv()
 
-ALERT_KEY = os.getenv("ALERT_KEY", "")
-
 app = Flask(__name__)
-
 
 app.weather_info = None
 app.alerts_info = None
