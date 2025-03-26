@@ -1,35 +1,68 @@
-# H2 Python Structure and Data  
+# H2 Python Structure and Data
 
-## Опис  
-Цей репозиторій містить набір скриптів для збору, обробки та збереження даних, пов’язаних із інформацією про Україну, аналітикою ISW (Institute for the Study of War) та іншими корисними даними.  
+## Description
+This repository contains a set of scripts designed for collecting, processing, and storing data related to Ukraine, analytics from the Institute for the Study of War (ISW), and other valuable datasets. The project facilitates automated data gathering and processing, with a focus on real-time updates and structured storage.
 
-## Функціональність  
-### Основні компоненти:  
-- **`main.py`** – Головний файл для запуску мікросайту програми.  
-- **`ISW_everyday_update.py`** – Скрипт для щоденного оновлення даних ISW.  
-- **`ISW_history.py`** – Збір даних ISW.  
-- **`alerts_in_ua.py`** – Скрипт для отримання даних про тривоги в Україні на даний момент.  
-- **`weather_scrap.py`** – Збір та обробка погодних даних з сайту visualcrossing.com.  
-- **`db_loader.py`** – Завантаження даних у базу даних (не актуально на даний момент).  
-- **`templates/`** – Шаблони для роботи рендеру сторінок у фласк.  
-- **`ISW.parquet`** – Файл у форматі Parquet, що містить структуровані дані з ISW.  
+In the future, it will be able to predict air alerts
 
-## Вимоги  
-Для роботи необхідно встановити:  
-- Python 3.x  
-- Модулі (перелік можна отримати з `requirements.txt`)  
+## Features
+The repository consists of several key components:
 
-## Використання  
-1. Клонувати репозиторій:  
+- **`main.py`** – The main script responsible for launching the microservice website.
+- **`ISW_everyday_update.py`** – A script that updates ISW data daily.
+- **`ISW_history.py`** – Gathers historical ISW data for analysis.
+- **`alerts_in_ua.py`** – Fetches real-time air raid alerts and security warnings in Ukraine.
+- **`weather_scrap.py`** – Collects and processes weather data from [Visual Crossing](https://www.visualcrossing.com/).
+- **`db_loader.py`** – Loads data into a database (currently not in use).
+- **`templates/`** – Contains HTML templates used for rendering web pages in Flask.
+- **`ISW.parquet`** – A structured Parquet file storing ISW data for efficient querying and analysis.
+
+## Requirements
+To run this project, ensure you have the following:
+
+- **Python 3.x** installed on your system
+- Required dependencies (listed in `requirements.txt`)
+
+## Installation
+Follow these steps to set up the project:
+
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/HliebOcheretianyi/H2_python_structure_and_data.git  
-   cd H2_python_structure_and_data  
-   ```  
-2. Встановити залежності:  
+   git clone https://github.com/HliebOcheretianyi/H2_python_structure_and_data.git
+   cd H2_python_structure_and_data
+   ```
+2. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt  
-   ```  
-3. Запустити головний скрипт:  
-   ```bash
-   python main.py  
-   ```  
+   pip install -r requirements.txt
+   ```
+
+## Usage
+To launch the main script and start the microservice:
+```bash
+python main.py
+```
+
+Depending on the specific functionality required, you can also run other scripts individually. For example:
+
+- Update ISW data:
+  ```bash
+  python ISW_everyday_update.py
+  ```
+- Fetch current Ukraine security alerts:
+  ```bash
+  python alerts_in_ua.py
+  ```
+- Collect weather data:
+  ```bash
+  python weather_scrap.py
+  ```
+
+## Contributing
+Contributions are welcome! If you want to improve the project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with a descriptive message.
+4. Push your branch to your forked repository.
+5. Submit a pull request with a detailed description of your modifications.
+
