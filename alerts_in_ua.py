@@ -28,7 +28,7 @@ city_to_uid = {
     'Chernivtsi Region': '26',
     'Lviv Region': '27',
     'Donetsk Region': '28',
-    'AR Crimea': '29',
+    'Crimea': '29',
     'Kyiv': '31'
 }
 status = {
