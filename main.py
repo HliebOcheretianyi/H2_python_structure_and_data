@@ -56,7 +56,5 @@ def alerts():
     return jsonify(status)
 
 
-app.run(host='0.0.0.0', port=8000, debug=True)
-
 
 
