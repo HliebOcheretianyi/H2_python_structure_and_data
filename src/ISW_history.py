@@ -84,12 +84,12 @@ def collect_all_isw_reports(end_date):
     df.sort_values(by='date', inplace=True)
 
     table = pa.Table.from_pandas(df)
-    pq.write_table(table, 'ISW.parquet')
+    pq.write_table(table, '../data/ISW.parquet')
 
     print(f"Total rows saved: {len(df)}")
 
 if __name__ == "__main__":
     end_date = datetime.date(2025, 3, 23)
     collect_all_isw_reports(end_date)
-    df = pd.read_parquet('ISW.parquet')
+    df = pd.read_parquet('../data/ISW.parquet')
     print(df[df['content'] != ""].tail(10))

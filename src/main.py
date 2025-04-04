@@ -1,10 +1,9 @@
 from flask import Flask, request, jsonify, render_template
-import weather_scrap
+from src import weather_scrap
 import datetime
 from dotenv import load_dotenv
-import os
 
-from alerts_in_ua import get_alert_status\
+from src.alerts_in_ua import get_alert_status\
 
 load_dotenv()
 
