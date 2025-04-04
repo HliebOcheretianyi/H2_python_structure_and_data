@@ -1,5 +1,4 @@
 import psycopg2
-import weather_scrap
 import os
 from dotenv import load_dotenv
 
