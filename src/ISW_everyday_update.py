@@ -59,7 +59,7 @@ def everyday_parsing_isw():
     df = pd.DataFrame(result)
 
     try:
-        existing_df = pd.read_parquet('ISW.parquet')
+        existing_df = pd.read_parquet('../data/ISW.parquet')
         if df['date'][0] in existing_df['date'].values:
             print("Data for this date already exists. Skipping save.")
             return
@@ -71,9 +71,9 @@ def everyday_parsing_isw():
         combined_df = df
 
     table = pa.Table.from_pandas(combined_df)
-    pq.write_table(table, 'ISW.parquet')
+    pq.write_table(table, '../data/ISW.parquet')
 
 if __name__ == "__main__":
     everyday_parsing_isw()
-    read_df = pd.read_parquet('ISW.parquet')
+    read_df = pd.read_parquet('../data/ISW.parquet')
     print(read_df.tail(10))
