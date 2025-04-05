@@ -3,8 +3,6 @@ import urllib.error
 import datetime
 import re
 import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
 from tqdm import tqdm
 
 def generate_date_range(start_date, end_date):
@@ -23,7 +21,7 @@ def build_url(date_obj):
                 "russia-ukraine-warning-update-initial-russian-offensive-campaign-assessment")
     elif year == 2022 and date_obj.month == 2 and date_obj.day == 25:
         return (f"https://www.understandingwar.org/backgrounder/"
-                f"russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}-{year   }")
+                f"russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}-{year}")
     elif year == 2022 and date_obj.month == 2 and date_obj.day != 28:
         return (f"https://www.understandingwar.org/backgrounder/"
                 f"russia-ukraine-warning-update-russian-offensive-campaign-assessment-{month}-{day}")
@@ -83,13 +81,12 @@ def collect_all_isw_reports(end_date):
     df = pd.DataFrame(data)
     df.sort_values(by='date', inplace=True)
 
-    table = pa.Table.from_pandas(df)
-    pq.write_table(table, '../data/ISW.parquet')
+    df.to_csv('../data/ISW.csv', index=False)
 
     print(f"Total rows saved: {len(df)}")
 
 if __name__ == "__main__":
     end_date = datetime.date(2025, 3, 23)
     collect_all_isw_reports(end_date)
-    df = pd.read_parquet('../data/ISW.parquet')
+    df = pd.read_csv('../data/ISW.csv')
     print(df[df['content'] != ""].tail(10))

@@ -3,8 +3,6 @@ import urllib.error
 import datetime
 import re
 import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
 
 def everyday_parsing_isw():
     today = datetime.date.today()
@@ -59,7 +57,7 @@ def everyday_parsing_isw():
     df = pd.DataFrame(result)
 
     try:
-        existing_df = pd.read_parquet('../data/ISW.parquet')
+        existing_df = pd.read_csv('../data/ISW.csv')
         if df['date'][0] in existing_df['date'].values:
             print("Data for this date already exists. Skipping save.")
             return
@@ -70,10 +68,8 @@ def everyday_parsing_isw():
         print(f"Error reading existing file: {e}")
         combined_df = df
 
-    table = pa.Table.from_pandas(combined_df)
-    pq.write_table(table, '../data/ISW.parquet')
+    combined_df.to_csv('../data/ISW.csv', index=False)
 
 if __name__ == "__main__":
     everyday_parsing_isw()
-    read_df = pd.read_parquet('../data/ISW.parquet')
-    print(read_df.tail(10))
+    read_df = pd.read_csv('../data/ISW.csv')
