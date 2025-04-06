@@ -172,3 +172,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+data/all_weather_by_hour_2023-2025_v1.csv
+data/alarms-240222-010325.csv
