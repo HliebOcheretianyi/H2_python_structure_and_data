@@ -1,21 +1,65 @@
-# H2 Python Structure and Data
+# Air Alerms Predicting
 
 ## Description
-This repository contains a set of scripts designed for collecting, processing, and storing data related to Ukraine, analytics from the Institute for the Study of War (ISW), and other valuable datasets. The project facilitates automated data gathering and processing, with a focus on real-time updates and structured storage.
+This repository houses a collection of scripts tailored for a data science workflow, emphasizing the collection, processing, and storage of datasets related to Ukraine, insights from the Institute for the Study of War (ISW), and other relevant data sources. The project streamlines the data science pipeline by automating data acquisition, cleaning, and structuring, enabling real-time updates and efficient storage for downstream analysis.
 
-In the future, it will be able to predict air alerts
+Additionally, it serves as a practical example of applying machine learning in data science, specifically for predictive modeling. The repository is designed to predict air alerts using machine learning techniques such as RandomForestClassifier and Logistic Regression, showcasing the end-to-end process of data preparation, model training, and evaluation.
 
-## Features
-The repository consists of several key components:
+# Project Structure and File Overview
 
-- **`main.py`** – The main script responsible for launching the microservice website.
-- **`ISW_everyday_update.py`** – A script that updates ISW data daily.
-- **`ISW_history.py`** – Gathers historical ISW data for analysis.
-- **`alerts_in_ua.py`** – Fetches real-time air raid alerts and security warnings in Ukraine.
-- **`weather_scrap.py`** – Collects and processes weather data from [Visual Crossing](https://www.visualcrossing.com/).
-- **`db_loader.py`** – Loads data into a database (currently not in use).
-- **`templates/`** – Contains HTML templates used for rendering web pages in Flask.
-- **`ISW.parquet`** – A structured Parquet file storing ISW data for efficient querying and analysis.
+## Directory Structure
+
+- **config/**: Contains environment setup files.
+
+- **data/**: A dedicated directory for storing datasets. Users are required to acquire air alert and weather data for at least two years.
+
+- **src/**: The core of the project, containing scripts and Jupyter notebooks for data processing and modeling.
+
+- **templates/**: Holds HTML templates for rendering web pages via Flask, suggesting a web interface for visualizing predictions or results.
+
+---
+
+## File Breakdown and Functionality
+
+### Data Collection Scripts
+
+- **ISW_everyday_update.py**: Automates daily updates of ISW data to keep the dataset current for real-time analysis.
+
+- **ISW_history.py**: Collects historical ISW data, likely used to build a baseline dataset for training models.
+
+- **weather_scrap.py**: Scrapes weather data from Visual Crossing, providing features like temperature or precipitation that may correlate with air alerts.
+
+- **alerts_in_ua.py**: Fetches real-time air raid alerts in Ukraine.
+
+---
+
+### Data Processing Scripts/Notebooks
+
+- **vectorizer.ipynb**: Converts ISW reports into numerical vectors (e.g., using TF-IDF and PCA) for use in machine learning models, handling unstructured text data.
+
+- **prepare_final_dataset.ipynb**: Merges all data sources (ISW, weather, air alerts) into a unified dataset, ensuring alignment for modeling.
+
+---
+
+### Machine Learning Notebooks
+
+- **logistic_regression.ipynb**: Implements a Logistic Regression model for air alert prediction, suitable for binary classification (alert vs. no alert).
+
+- **random_forest.ipynb**: Implements a RandomForestClassifier, which can capture non-linear relationships in the data for potentially better prediction accuracy.
+
+- **linear_regression.ipynb**: Its purpose is unclear since air alert prediction is typically a classification task, which is shown in it.
+
+---
+
+### Utility Scripts
+
+- **\_\_init\_\_.py**: Makes the `src/` directory a Python package for modular imports.
+
+- **db_loader.py**: Designed to load data into a database but is currently unused.
+
+- **main.py**: Launches a Flask-based microservice website to display predictions or visualizations using the `templates/` folder.
+
+
 
 ## Requirements
 To run this project, ensure you have the following:
@@ -23,6 +67,8 @@ To run this project, ensure you have the following:
 - **Python 3.x** installed on your system
 - Required dependencies (listed in `requirements.txt`)
 
+*Recomendations:*
+- at least 32GB of RAM
 ## Installation
 Follow these steps to set up the project:
 
@@ -37,25 +83,14 @@ Follow these steps to set up the project:
    ```
 
 ## Usage
-To launch the main script and start the microservice:
-```bash
-python main.py
-```
+Run the Jupyter notebooks in sequence:
 
-Depending on the specific functionality required, you can also run other scripts individually. For example:
+__vectorizer.ipynb → prepare_final_dataset.ipynb → Logistic_regression.ipynb / RandomForestClassifier.ipynb__
 
-- Update ISW data:
-  ```bash
-  python ISW_everyday_update.py
-  ```
-- Fetch current Ukraine security alerts:
-  ```bash
-  python alerts_in_ua.py
-  ```
-- Collect weather data:
-  ```bash
-  python weather_scrap.py
-  ```
+Ensure datasets (ISW.csv, alarms.csv, weather_by_hour.csv, regions.csv) are available in the working directory.
+
+
+Depending on the specific functionality required, you can also run other scripts individually.
 
 ## Contributing
 Contributions are welcome! If you want to improve the project, follow these steps:
