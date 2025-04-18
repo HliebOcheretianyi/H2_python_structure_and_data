@@ -70,5 +70,3 @@ def everyday_parsing_isw():
 
     combined_df.to_csv('../data/ISW.csv', index=False)
 
-if __name__ == "__main__":
-    everyday_parsing_isw()
