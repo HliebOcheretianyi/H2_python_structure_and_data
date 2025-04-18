@@ -9,6 +9,7 @@ from nltk import word_tokenize
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.decomposition import PCA
+import ISW_everyday_update as I
 
 
 INPUT_FILE = "../data/ISW.csv"
@@ -102,6 +103,7 @@ def extract_keywords(X_pca, feature_names, pca_model, top_n=1000):
 
 
 def main():
+    I.everyday_parsing_isw()
     setup_nltk()
 
     print("Loading and cleaning data...")
