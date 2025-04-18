@@ -72,4 +72,3 @@ def everyday_parsing_isw():
 
 if __name__ == "__main__":
     everyday_parsing_isw()
-    read_df = pd.read_csv('../data/ISW.csv')
