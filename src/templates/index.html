@@ -65,7 +65,6 @@
                 <option value="Zakarpattia Region">Zakarpattia Region</option>
                 <option value="Zaporizhzhia Region">Zaporizhzhia Region</option>
                 <option value="Zhytomyr Region">Zhytomyr Region</option>
-                <option value="Donetsk Region">Donetsk Region</option>
                 <option value="Crimea">Crimea</option>
                 <option value="Kyiv">Kyiv</option>
         </select>
@@ -83,6 +82,28 @@
         >
             Check Alerts
         </button>
+
+        {% if weather_info %}
+        <div class="mt-6 p-4 bg-gray-100 rounded">
+            <h2 class="text-xl font-semibold mb-2">Weather for {{ weather_location }}</h2>
+            <div class="text-sm">{{ weather_info }}</div>
+        </div>
+        {% endif %}
+
+        {% if alerts_info %}
+        <div class="mt-4 p-4
+            {% if alerts_info == 'air alarm' %}
+                bg-red-200 text-red-800
+            {% elif alerts_info == 'partial air alarm' %}
+                bg-yellow-200 text-yellow-800
+            {% else %}
+                bg-green-200 text-green-800
+            {% endif %}
+            rounded">
+            <h2 class="text-xl font-semibold mb-2">Alert Status for {{ alerts_location }}</h2>
+            <div class="text-lg font-bold">{{ alerts_info }}</div>
+        </div>
+        {% endif %}
     </div>
 
     <div class="marquee">
@@ -109,7 +130,8 @@
                     body: JSON.stringify({ location: selectedRegion })
                 });
 
-                const alertStatus = await alertResponse.json();
+                const alertData = await alertResponse.json();
+                const alertStatus = alertData.status;
 
                 alertStatusDiv.textContent = `Alert Status: ${alertStatus}`;
                 alertStatusDiv.className = `p-3 rounded text-center font-semibold ${
@@ -117,6 +139,10 @@
                     alertStatus === 'partial air alarm' ? 'bg-yellow-200 text-yellow-800' :
                     'bg-green-200 text-green-800'
                 }`;
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000000);
 
             } catch (error) {
                 console.error('Error:', error);
