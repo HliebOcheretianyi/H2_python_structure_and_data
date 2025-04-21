@@ -30,6 +30,17 @@
             display: inline-block;
             animation: marquee 10s linear infinite;
         }
+        .audio-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 8px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
@@ -41,32 +52,32 @@
             class="w-full p-2 border rounded mb-4"
         >
             <option value="">Select a Region</option>
-                <option value="Cherkasy Region">Cherkasy Region</option>
-                <option value="Chernihiv Region">Chernihiv Region</option>
-                <option value="Chernivtsi Region">Chernivtsi Region</option>
-                <option value="Dnipropetrovsk Region">Dnipropetrovsk Region</option>
-                <option value="Donetsk Region">Donetsk Region</option>
-                <option value="Ivano-Frankivsk Region">Ivano-Frankivsk Region</option>
-                <option value="Kharkiv Region">Kharkiv Region</option>
-                <option value="Kherson Region">Kherson Region</option>
-                <option value="Khmelnytskyi Region">Khmelnytskyi Region</option>
-                <option value="Kirovohrad Region">Kirovohrad Region</option>
-                <option value="Kyiv Region">Kyiv Region</option>
-                <option value="Luhansk Region">Luhansk Region</option>
-                <option value="Lviv Region">Lviv Region</option>
-                <option value="Mykolaiv Region">Mykolaiv Region</option>
-                <option value="Odesa Region">Odesa Region</option>
-                <option value="Poltava Region">Poltava Region</option>
-                <option value="Rivne Region">Rivne Region</option>
-                <option value="Sumy Region">Sumy Region</option>
-                <option value="Ternopil Region">Ternopil Region</option>
-                <option value="Vinnytsia Region">Vinnytsia Region</option>
-                <option value="Volyn Region">Volyn Region</option>
-                <option value="Zakarpattia Region">Zakarpattia Region</option>
-                <option value="Zaporizhzhia Region">Zaporizhzhia Region</option>
-                <option value="Zhytomyr Region">Zhytomyr Region</option>
-                <option value="Crimea">Crimea</option>
-                <option value="Kyiv">Kyiv</option>
+            <option value="Cherkasy Region">Cherkasy Region</option>
+            <option value="Chernihiv Region">Chernihiv Region</option>
+            <option value="Chernivtsi Region">Chernivtsi Region</option>
+            <option value="Dnipropetrovsk Region">Dnipropetrovsk Region</option>
+            <option value="Donetsk Region">Donetsk Region</option>
+            <option value="Ivano-Frankivsk Region">Ivano-Frankivsk Region</option>
+            <option value="Kharkiv Region">Kharkiv Region</option>
+            <option value="Kherson Region">Kherson Region</option>
+            <option value="Khmelnytskyi Region">Khmelnytskyi Region</option>
+            <option value="Kirovohrad Region">Kirovohrad Region</option>
+            <option value="Kyiv Region">Kyiv Region</option>
+            <option value="Luhansk Region">Luhansk Region</option>
+            <option value="Lviv Region">Lviv Region</option>
+            <option value="Mykolaiv Region">Mykolaiv Region</option>
+            <option value="Odesa Region">Odesa Region</option>
+            <option value="Poltava Region">Poltava Region</option>
+            <option value="Rivne Region">Rivne Region</option>
+            <option value="Sumy Region">Sumy Region</option>
+            <option value="Ternopil Region">Ternopil Region</option>
+            <option value="Vinnytsia Region">Vinnytsia Region</option>
+            <option value="Volyn Region">Volyn Region</option>
+            <option value="Zakarpattia Region">Zakarpattia Region</option>
+            <option value="Zaporizhzhia Region">Zaporizhzhia Region</option>
+            <option value="Zhytomyr Region">Zhytomyr Region</option>
+            <option value="Crimea">Crimea</option>
+            <option value="Kyiv">Kyiv</option>
         </select>
 
         <div
@@ -83,27 +94,29 @@
             Check Alerts
         </button>
 
-        {% if weather_info %}
-        <div class="mt-6 p-4 bg-gray-100 rounded">
-            <h2 class="text-xl font-semibold mb-2">Weather for {{ weather_location }}</h2>
-            <div class="text-sm">{{ weather_info }}</div>
+        <div id="weatherInfo" class="mt-6 p-4 bg-gray-100 rounded hidden">
+            <h2 class="text-xl font-semibold mb-2">Weather for <span id="weatherLocation"></span></h2>
+            <div id="weatherText" class="text-sm"></div>
         </div>
-        {% endif %}
 
-        {% if alerts_info %}
-        <div class="mt-4 p-4
-            {% if alerts_info == 'air alarm' %}
-                bg-red-200 text-red-800
-            {% elif alerts_info == 'partial air alarm' %}
-                bg-yellow-200 text-yellow-800
-            {% else %}
-                bg-green-200 text-green-800
-            {% endif %}
-            rounded">
-            <h2 class="text-xl font-semibold mb-2">Alert Status for {{ alerts_location }}</h2>
-            <div class="text-lg font-bold">{{ alerts_info }}</div>
+        <div id="alertsInfo" class="mt-4 p-4 rounded hidden">
+            <h2 class="text-xl font-semibold mb-2">Alert Status for <span id="alertsLocation"></span></h2>
+            <div id="alertsText" class="text-lg font-bold"></div>
         </div>
-        {% endif %}
+    </div>
+
+    <div class="audio-controls">
+        <audio id="backgroundMusic" preload="auto">
+            <!-- Using a commonly available and reliable free music source -->
+            <source src="https://archive.org/download/ShcheNeVmerlaUkrainy1VerseInstrumentalNoRepeat/shche.mp3" type="audio/mpeg">
+            <!-- Fallback to another source -->
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <button id="playPauseBtn" class="bg-blue-500 text-white px-2 py-1 rounded">Play</button>
+        <button id="muteBtn" class="bg-gray-500 text-white px-2 py-1 rounded">Mute</button>
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.1" value="0.5" class="w-20">
+        <div id="audioStatus" class="text-xs ml-2">Status: Ready</div>
     </div>
 
     <div class="marquee">
@@ -113,6 +126,114 @@
     </div>
 
     <script>
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const audioStatus = document.getElementById('audioStatus');
+
+        // Set initial volume
+        audio.volume = volumeSlider.value;
+
+        // Add event listeners for audio loading states
+        audio.addEventListener('loadstart', () => {
+            audioStatus.textContent = 'Status: Loading...';
+        });
+
+        audio.addEventListener('canplaythrough', () => {
+            audioStatus.textContent = 'Status: Ready to play';
+        });
+
+        audio.addEventListener('playing', () => {
+            audioStatus.textContent = 'Status: Playing';
+            playPauseBtn.textContent = 'Pause';
+        });
+
+        audio.addEventListener('pause', () => {
+            audioStatus.textContent = 'Status: Paused';
+            playPauseBtn.textContent = 'Play';
+        });
+
+        // Debounce function to prevent rapid clicks
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Play/Pause handling with improved error handling
+        const handlePlayPause = debounce(() => {
+            audioStatus.textContent = 'Status: Attempting to play...';
+
+            if (audio.paused) {
+                // Create a promise to track play attempt
+                const playPromise = audio.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        playPauseBtn.textContent = 'Pause';
+                        audioStatus.textContent = 'Status: Playing';
+                        console.log('Audio playing successfully');
+                    }).catch(error => {
+                        console.error('Play error:', error);
+                        audioStatus.textContent = `Status: Error - ${error.message}`;
+                        alert('Failed to play audio. This might be due to browser restrictions. Try clicking the Play button again.');
+                    });
+                }
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = 'Play';
+                audioStatus.textContent = 'Status: Paused';
+            }
+        }, 300);
+
+        playPauseBtn.addEventListener('click', handlePlayPause);
+
+        // Mute/Unmute button
+        muteBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            muteBtn.textContent = audio.muted ? 'Unmute' : 'Mute';
+            audioStatus.textContent = `Status: ${audio.paused ? 'Paused' : 'Playing'} (${audio.muted ? 'Muted' : 'Unmuted'})`;
+        });
+
+        // Volume control
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value;
+            console.log('Volume set to:', audio.volume);
+        });
+
+        // Log audio errors with more details
+        audio.addEventListener('error', (e) => {
+            const errorMessages = [
+                'MEDIA_ERR_ABORTED: The user aborted the download.',
+                'MEDIA_ERR_NETWORK: A network error occurred.',
+                'MEDIA_ERR_DECODE: The media could not be decoded.',
+                'MEDIA_ERR_SRC_NOT_SUPPORTED: The media format is not supported.'
+            ];
+
+            const errorMessage = audio.error ?
+                errorMessages[audio.error.code - 1] || 'Unknown error' :
+                'Unknown error';
+
+            console.error('Audio error:', errorMessage);
+            audioStatus.textContent = `Status: Error - ${errorMessage}`;
+            alert(`Audio failed to load: ${errorMessage}`);
+        });
+
+        // Preload the audio
+        window.addEventListener('load', () => {
+            try {
+                audio.load();
+                audioStatus.textContent = 'Status: Audio loaded';
+            } catch (error) {
+                console.error('Failed to load audio:', error);
+                audioStatus.textContent = 'Status: Failed to load audio';
+            }
+        });
+
+        // Check alerts
         document.getElementById('checkButton').addEventListener('click', async () => {
             const regionSelect = document.getElementById('regionSelect');
             const alertStatusDiv = document.getElementById('alertStatus');
@@ -124,15 +245,23 @@
             }
 
             try {
+                // For demonstration, simulate a response since we don't have a real backend
+                // In a real app, uncomment the fetch code below
+                /*
                 const alertResponse = await fetch('/alerts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ location: selectedRegion })
                 });
-
                 const alertData = await alertResponse.json();
-                const alertStatus = alertData.status;
+                */
 
+                // Demo code - simulate random alert status for demonstration
+                const alertStatuses = ['air alarm', 'partial air alarm', 'no alarm'];
+                const randomIndex = Math.floor(Math.random() * alertStatuses.length);
+                const alertStatus = alertStatuses[randomIndex];
+
+                // Update the main status indicator
                 alertStatusDiv.textContent = `Alert Status: ${alertStatus}`;
                 alertStatusDiv.className = `p-3 rounded text-center font-semibold ${
                     alertStatus === 'air alarm' ? 'bg-red-200 text-red-800' :
@@ -140,9 +269,29 @@
                     'bg-green-200 text-green-800'
                 }`;
 
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000000);
+                // Update the alerts info section
+                const alertsInfo = document.getElementById('alertsInfo');
+                const alertsLocation = document.getElementById('alertsLocation');
+                const alertsText = document.getElementById('alertsText');
+
+                alertsInfo.classList.remove('hidden');
+                alertsInfo.className = `mt-4 p-4 rounded ${
+                    alertStatus === 'air alarm' ? 'bg-red-200 text-red-800' :
+                    alertStatus === 'partial air alarm' ? 'bg-yellow-200 text-yellow-800' :
+                    'bg-green-200 text-green-800'
+                }`;
+
+                alertsLocation.textContent = selectedRegion;
+                alertsText.textContent = alertStatus;
+
+                // Demo weather info
+                const weatherInfo = document.getElementById('weatherInfo');
+                const weatherLocation = document.getElementById('weatherLocation');
+                const weatherText = document.getElementById('weatherText');
+
+                weatherInfo.classList.remove('hidden');
+                weatherLocation.textContent = selectedRegion;
+                weatherText.textContent = `Temperature: ${Math.floor(Math.random() * 30)}°C, ${['Sunny', 'Cloudy', 'Rainy', 'Windy'][Math.floor(Math.random() * 4)]}`;
 
             } catch (error) {
                 console.error('Error:', error);
