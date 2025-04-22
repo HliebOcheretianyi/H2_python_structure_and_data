@@ -4,7 +4,7 @@ import datetime
 import logging
 import dotenv
 from src import weather_scrap
-from src.alerts_in_ua import get_alert_status
+from src.alerts import get_alert_status
 
 load_dotenv()
 
@@ -23,9 +23,7 @@ app.alerts_location = None
 def home_page():
     return render_template('index.html',
                            weather_info=app.weather_info,
-                           weather_location=app.weather_location,
-                           alerts_info=app.alerts_info,
-                           alerts_location=app.alerts_location)
+                           alerts_info=app.alerts_info)
 
 
 @app.route('/weather', methods=['GET', 'POST'])
@@ -40,7 +38,7 @@ def weather():
         if not location:
             return jsonify({"error": "location is required"}), 400
 
-        weather_info = weather_scrap.generate_forecast(location, str(datetime.date.today()))
+        weather_info = weather_scrap.generate_forecast(location)
 
         app.weather_info = weather_info
         app.weather_location = location
@@ -59,11 +57,9 @@ def weather():
 @app.route('/alerts', methods=['GET', 'POST'])
 def alerts():
     try:
-        if request.method == 'POST':
-            json_data = request.get_json() or {}
-            location = json_data.get("location")
-        else:
-            location = request.args.get("location")
+        alert_data = request.get_json()
+
+        location = alert_data.get("location")
 
         if not location:
             return jsonify({"error": "location is required"}), 400
@@ -71,9 +67,8 @@ def alerts():
         status = get_alert_status(location)
 
         app.alerts_info = status
-        app.alerts_location = location
 
-        return jsonify({"location": location, "status": status})
+        return jsonify(status)
     except Exception as e:
         logger.error(f"Alerts error: {str(e)}")
         return jsonify({"error": str(e)}), 500
