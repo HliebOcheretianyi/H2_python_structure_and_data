@@ -3,5 +3,7 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.10 (H2_python_structure_and_data)" />
   </component>
+
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (H2_python_structure_and_data)" project-jdk-type="Python SDK" />
+
 </project>
