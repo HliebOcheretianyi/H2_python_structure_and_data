@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from dotenv import load_dotenv
 import requests
 from datetime import datetime, timedelta
@@ -46,9 +47,11 @@ def generate_forecast(location: str):
         for hour in day.get("hours", []):
             hour_time = datetime.strptime(hour["datetime"], "%H:%M:%S").time()
             full_hour_time = datetime.combine(datetime.strptime(day["datetime"], "%Y-%m-%d"), hour_time)
-            if full_hour_time >= current_hour:
+            if current_hour <= full_hour_time < current_hour + timedelta(hours=24):
                 hour_data = {f"hour_{k}": hour.get(k) for k in hour_keys}
                 results.append({"city_resolvedAddress": data.get("resolvedAddress"),
                                 **day_data, **hour_data})
 
     return results
+df_region = pd.DataFrame(generate_forecast("Kyiv" ))
+print(df_region.head(100))

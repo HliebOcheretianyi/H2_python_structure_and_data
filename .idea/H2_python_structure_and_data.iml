@@ -5,10 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
+
     <orderEntry type="jdk" jdkName="Python 3.10 (H2_python_structure_and_data)" jdkType="Python SDK" />
+
     <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-  <component name="PackageRequirementsSettings">
-    <option name="removeUnused" value="true" />
   </component>
 </module>
