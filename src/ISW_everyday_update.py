@@ -10,7 +10,7 @@ def everyday_parsing_isw():
 
     url = (
         f"https://www.understandingwar.org/backgrounder/"
-        f"russian-offensive-campaign-assessment-{month}-{today.day - 1}-{today.year}"
+        f"russian-offensive-campaign-assessment-{month}-{today.day - 2}-{today.year}"
     )
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
@@ -69,4 +69,6 @@ def everyday_parsing_isw():
         combined_df = df
 
     combined_df.to_csv('../data/ISW.csv', index=False)
+if __name__ == "__main__":
+    everyday_parsing_isw()
 
