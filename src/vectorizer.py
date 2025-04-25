@@ -5,12 +5,12 @@ import string
 import numpy as np
 import pandas as pd
 import nltk
-from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk.stem import PorterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-from sklearn.decomposition import PCA
 import ISW_everyday_update as I
+import pickle
+from tokenizer import LemmaTokenizer
 
 
 INPUT_FILE = "../data/ISW.csv"
@@ -22,6 +22,18 @@ PCA_COMPONENTS = 400
 TOP_KEYWORDS = 1000
 
 
+with open('../src/our_models/3_lemming_v1.pkl', 'rb') as f:
+    lemming = pickle.load(f)
+
+
+with open('../src/our_models/3_tf_idf_v1.pkl', 'rb') as f:
+    tf_idf = pickle.load(f)
+
+
+with open('../src/our_models/3_PCA_v1.pkl', 'rb') as f:
+    pca = pickle.load(f)
+
+
 def setup_nltk():
     data_dir = os.path.join(os.getcwd(), 'models')
     os.makedirs(data_dir, exist_ok=True)
@@ -30,19 +42,6 @@ def setup_nltk():
     resources = ['punkt_tab', 'wordnet', 'stopwords']
     for resource in resources:
         nltk.download(resource, download_dir=data_dir)
-
-
-class LemmaTokenizer:
-
-    def __init__(self):
-        self.wnl = WordNetLemmatizer()
-        self.stop_words = set(stopwords.words('english'))
-
-    def __call__(self, doc):
-        if not isinstance(doc, str) or not doc.strip():
-            return []
-        return [self.wnl.lemmatize(t) for t in word_tokenize(doc)
-                if t not in self.stop_words]
 
 
 class StemmerTokenizer:
@@ -122,24 +121,15 @@ def main():
         lambda x: ' '.join(stem_tokenizer(x)) if isinstance(x, str) else '')
 
     print("Extracting features...")
-    lemming = CountVectorizer(
-        lowercase=True,
-        ngram_range=(2, 2),
-        tokenizer=LemmaTokenizer(),
-        max_features=MAX_FEATURES,
-        min_df=MIN_DF,
-        max_df=MAX_DF
-    )
 
     X_lemma = lemming.fit_transform(df_raw['content'].fillna(''))
 
     print("Applying TF-IDF transformation...")
-    tf_idf = TfidfTransformer()
     X_tf_idf = tf_idf.fit_transform(X_lemma)
     X_dense = X_tf_idf.toarray()
 
     print(f"Performing PCA with {PCA_COMPONENTS} components...")
-    pca = PCA(n_components=PCA_COMPONENTS, whiten=True, random_state=69)
+
     X_pca = pca.fit_transform(X_dense)
 
     feature_names = lemming.get_feature_names_out()
