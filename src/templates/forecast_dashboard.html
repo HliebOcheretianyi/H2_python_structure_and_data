@@ -183,10 +183,10 @@
                         
                         const statusBadge = document.createElement('span');
                         if (status) {
-                            statusBadge.classList.add('px-2', 'inline-flex', 'text-xs', 'leading-5', 'font-semibold', 'rounded-full', 'bg-green-100', 'text-green-800');
+                            statusBadge.classList.add('px-2', 'inline-flex', 'text-xs', 'leading-5', 'font-semibold', 'rounded-full', 'bg-red-100', 'text-red-800');
                             statusBadge.textContent = 'Alert';
                         } else {
-                            statusBadge.classList.add('px-2', 'inline-flex', 'text-xs', 'leading-5', 'font-semibold', 'rounded-full', 'bg-red-100', 'text-red-800');
+                            statusBadge.classList.add('px-2', 'inline-flex', 'text-xs', 'leading-5', 'font-semibold', 'rounded-full', 'bg-green-100', 'text-green-800');
                             statusBadge.textContent = 'No Alert';
                         }
                         
@@ -224,9 +224,9 @@
                         card.classList.add('bg-white', 'rounded-lg', 'shadow', 'p-4', 'border-l-4');
                         
                         if (status) {
-                            card.classList.add('border-green-500');
-                        } else {
                             card.classList.add('border-red-500');
+                        } else {
+                            card.classList.add('border-green-500');
                         }
                         
                         const timeElement = document.createElement('div');
@@ -239,10 +239,10 @@
                         const statusIcon = document.createElement('i');
                         
                         if (status) {
-                            statusIcon.classList.add('fas', 'fa-check-circle', 'text-green-500', 'mr-2');
+                            statusIcon.classList.add('fas', 'fa-check-circle', 'text-red-500', 'mr-2');
                             statusElement.textContent = 'Alert';
                         } else {
-                            statusIcon.classList.add('fas', 'fa-times-circle', 'text-red-500', 'mr-2');
+                            statusIcon.classList.add('fas', 'fa-times-circle', 'text-green-500', 'mr-2');
                             statusElement.textContent = 'No Alert';
                         }
                         
