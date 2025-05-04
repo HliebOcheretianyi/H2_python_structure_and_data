@@ -8,13 +8,13 @@ import nltk
 from nltk.stem import PorterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-import ISW_everyday_update as I
+from src.preparations import ISW_everyday_update as I
 import pickle
 from tokenizer import LemmaTokenizer
 
 
-INPUT_FILE = "../data/ISW.csv"
-OUTPUT_FILE = "../data/ISW_vector.csv"
+INPUT_FILE = "../../data/ISW.csv"
+OUTPUT_FILE = "../../data/ISW_vector.csv"
 MAX_FEATURES = 2000
 MIN_DF = 5
 MAX_DF = 0.8
