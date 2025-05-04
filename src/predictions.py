@@ -1,10 +1,11 @@
 import os
 import pandas as pd
+import numpy as np
 import pickle
 import joblib
 import json
 from datetime import datetime
-
+from stacking_models import Stacking, CoolStacking
 
 def load_models():
     scaler = joblib.load('../src/our_models/scaler_v1.pkl')

@@ -8,13 +8,13 @@ import nltk
 from nltk.stem import PorterStemmer
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-from src.preparations import ISW_everyday_update as I
+import ISW_everyday_update as I
 import pickle
-from src.model_building.tokenizer import LemmaTokenizer
+from tokenizer import LemmaTokenizer
 
 
-INPUT_FILE = "../../data/ISW.csv"
-OUTPUT_FILE = "../../data/ISW_vector.csv"
+INPUT_FILE = "../data/ISW.csv"
+OUTPUT_FILE = "../data/ISW_vector.csv"
 MAX_FEATURES = 2000
 MIN_DF = 5
 MAX_DF = 0.8
@@ -22,20 +22,20 @@ PCA_COMPONENTS = 400
 TOP_KEYWORDS = 1000
 
 
-with open('../our_models/3_lemming_v1.pkl', 'rb') as f:
+with open('../src/our_models/3_lemming_v1.pkl', 'rb') as f:
     lemming = pickle.load(f)
 
 
-with open('../our_models/3_tf_idf_v1.pkl', 'rb') as f:
+with open('../src/our_models/3_tf_idf_v1.pkl', 'rb') as f:
     tf_idf = pickle.load(f)
 
 
-with open('../our_models/3_PCA_v1.pkl', 'rb') as f:
+with open('../src/our_models/3_PCA_v1.pkl', 'rb') as f:
     pca = pickle.load(f)
 
 
 def setup_nltk():
-    data_dir = '../prepar_notebooks/models'
+    data_dir = os.path.join(os.getcwd(), 'models')
     os.makedirs(data_dir, exist_ok=True)
     nltk.data.path.append(data_dir)
 
