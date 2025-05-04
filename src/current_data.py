@@ -1,8 +1,8 @@
 import os
 import pandas as pd
 from datetime import date
-import weather_scrap as w
-import alerts_in_ua as a
+from src.preparations import weather_scrap as w
+from src.preparations import alerts_in_ua as a
 import holidays
 
 
