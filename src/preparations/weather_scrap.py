@@ -54,5 +54,3 @@ def generate_forecast(location: str):
                                 **day_data, **hour_data})
 
     return results
-df_region = pd.DataFrame(generate_forecast("Kyiv" ))
-print(df_region.head(100))
