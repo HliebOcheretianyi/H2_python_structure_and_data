@@ -27,7 +27,8 @@ def generate_forecast(df, scaler, model):
         20: "Kharkiv", 21: "Kherson", 22: "Khmelnytskyi", 23: "Cherkasy",
         24: "Chernivtsi", 25: "Chernihiv"
     }
-    hours = [f"{h:02d}:00" for h in range(24)]
+    hour = int(pd.to_datetime(datetime.now()).floor('h').strftime("%H"))
+    hours = [f"{((hour + h)%24):02d}:00" for h in range(24)]
     regions_forecast = {}
 
     for region_id, region_name in region_map.items():
