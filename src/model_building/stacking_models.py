@@ -21,7 +21,7 @@ class Stacking:
             self.pretrained = pretrained
 
     def fit(self, X, y):
-        kf = KFold(n_splits=self.cv, shuffle=True, random_state=42)
+        kf = TimeSeriesSplit(n_splits=self.cv)
         meta_features = np.zeros((X.shape[0], len(self.base_models)))
 
         for i, (name, model) in enumerate(self.base_models):
