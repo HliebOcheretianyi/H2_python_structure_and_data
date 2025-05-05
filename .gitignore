@@ -172,7 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-data/**
 
+
+data/**
+!data/
 !data/**/.gitkeep
+
 src/prepar_notebooks/models
