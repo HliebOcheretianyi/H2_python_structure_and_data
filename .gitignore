@@ -178,12 +178,5 @@ data/**
 !data/
 !data/.gitkeep
 !data/**/.gitkeep
-!data/all_data_preprocessed/
-!data/all_data_preprocessed/all_isw.csv
-!data/all_data_preprocessed/all_merged.parquet
-!data/all_data_preprocessed/all_weather_by_hour.csv
-!data/all_data_preprocessed/weather_regions_alarms_merged.csv
-!data/regions.csv
-!data/weather_by_hour.csv
 
 src/prepar_notebooks/models
