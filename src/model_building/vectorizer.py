@@ -22,15 +22,15 @@ PCA_COMPONENTS = 400
 TOP_KEYWORDS = 1000
 
 
-with open('../src/our_models/3_lemming_v1.pkl', 'rb') as f:
+with open('../our_models/3_lemming_v1.pkl', 'rb') as f:
     lemming = pickle.load(f)
 
 
-with open('../src/our_models/3_tf_idf_v1.pkl', 'rb') as f:
+with open('../our_models/3_tf_idf_v1.pkl', 'rb') as f:
     tf_idf = pickle.load(f)
 
 
-with open('../src/our_models/3_PCA_v1.pkl', 'rb') as f:
+with open('../our_models/3_PCA_v1.pkl', 'rb') as f:
     pca = pickle.load(f)
 
 

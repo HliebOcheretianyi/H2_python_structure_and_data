@@ -170,7 +170,14 @@
                     tbody.classList.add('bg-white', 'divide-y', 'divide-gray-200');
                     
                     let rowIndex = 0;
-                    for (const [hour, status] of Object.entries(forecast)) {
+                    const now = new Date();
+                    const currentHour = now.getHours();
+
+                    const forecastEntries = Object.entries(forecast);
+                    const reorderedForecast = forecastEntries
+                        .slice(currentHour)
+                        .concat(forecastEntries.slice(0, currentHour));
+                    for (const [hour, status] of reorderedForecast) {
                         const row = document.createElement('tr');
                         row.classList.add(rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50');
                         
@@ -218,8 +225,15 @@
                     
                     const cardGrid = document.createElement('div');
                     cardGrid.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4', 'gap-4');
-                    
-                    for (const [hour, status] of Object.entries(forecast)) {
+
+                    const now = new Date();
+                    const currentHour = now.getHours();
+
+                    const forecastEntries = Object.entries(forecast);
+                    const reorderedForecast = forecastEntries
+                        .slice(currentHour)
+                        .concat(forecastEntries.slice(0, currentHour));
+                    for (const [hour, status] of reorderedForecast) {
                         const card = document.createElement('div');
                         card.classList.add('bg-white', 'rounded-lg', 'shadow', 'p-4', 'border-l-4');
                         

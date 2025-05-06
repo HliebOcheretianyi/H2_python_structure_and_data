@@ -44,7 +44,7 @@ def main():
     df_weather_reg_al = df_weather_reg.merge(df_alarms, how="left", on="region")
     df_weather_reg_al["day_datetime"] = pd.to_datetime(df_weather_reg_al["day_datetime"])
 
-    df_isw_vect = pd.read_csv("../data/ISW_vector.csv")
+    df_isw_vect = pd.read_csv("../data/ISW_vector_tfidf.csv")
     df_isw_vect = df_isw_vect.tail(1)
     df_isw_vect = pd.concat([df_isw_vect] * len(df_weather_reg_al), ignore_index=True)
 
@@ -90,7 +90,7 @@ def main():
                               df_encoded_v2[col].dt.minute * 60 +
                               df_encoded_v2[col].dt.second) / 86400
 
-    df_temp = pd.read_parquet("../data/all_data_preprocessed/all_merged.parquet", engine="pyarrow",
+    df_temp = pd.read_parquet("../data/all_data_preprocessed/all_merged_tfidf.parquet", engine="pyarrow",
                               columns=['event_all_region', 'region_id', 'hour_datetimeEpoch'])
     df_temp['timestamp'] = pd.to_datetime(df_temp['hour_datetimeEpoch'], unit='s')
     df_temp['date'] = df_temp['timestamp'].dt.date
@@ -108,7 +108,9 @@ def main():
     df_encoded_v2['date'] = df_encoded_v2['timestamp'].dt.strftime('%Y-%m-%d')
     hours_with_events_per_day['date'] = hours_with_events_per_day['timestamp'].dt.strftime('%Y-%m-%d')
 
-    df_encoded_v2 = df_encoded_v2.sort_values('timestamp')
+    df_encoded_v2 = df_encoded_v2.reset_index(drop=True)
+    df_encoded_v2 = df_encoded_v2.sort_values("timestamp")
+
     hours_with_events_per_day = hours_with_events_per_day.sort_values('timestamp')
 
     df_encoded_v2 = pd.merge_asof(
